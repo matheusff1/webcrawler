@@ -1,5 +1,7 @@
 import scrapy
 
+from scrapper.scrapper.items import Brand
+
 
 class RankingthebrandsSpider(scrapy.Spider):
     name = "RankingTheBrands"
@@ -7,12 +9,17 @@ class RankingthebrandsSpider(scrapy.Spider):
     start_urls = ["https://www.rankingthebrands.com/The-Brands-and-their-Rankings.aspx?catFilter=0&nameFilter=A"]
 
     def parse(self, response):
-        
-            for brand in response.css('#ctl00_mainContent_brandPanel .brandLine'):
-                brand_name = brand.css('a span.rankingName::text').get()
+        for option in response.css('#ctl00_mainContent_filterPanel a'):
+            letter = option.css("::text").get()
+            link = response.urljoin(option.attrib["href"])
 
-            
-                yield {
-                    'name': brand_name,
-                    'letter': 'a',
-                }
+            yield response.follow(link, callback=self.parse_brands, meta={"letter": letter})
+
+    def parse_brands(self, response):
+        letter = response.meta["letter"]
+
+        for brand in response.css('#ctl00_mainContent_brandPanel .brandLine'):
+            brand_name = brand.css('a span.rankingName::text').get()
+            brand_x = Brand(brand_name,letter)
+            yield brand_x
+
