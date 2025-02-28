@@ -9,6 +9,8 @@
 
 BOT_NAME = "scrapper"
 
+MONGO_URI = "mongodb+srv://eu:eu@cluster0.vav2n.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+
 SPIDER_MODULES = ["scrapper.spiders"]
 NEWSPIDER_MODULE = "scrapper.spiders"
 
@@ -31,7 +33,7 @@ ROBOTSTXT_OBEY = True
 #CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
-#COOKIES_ENABLED = False
+COOKIES_ENABLED = False
 
 # Disable Telnet Console (enabled by default)
 #TELNETCONSOLE_ENABLED = False
@@ -63,7 +65,8 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    "scrapper.pipelines.ScrapperPipeline": 300,
+    "scrapper.pipelines.JsonPipeline": 300,
+    "scrapper.pipelines.MongoPipeline": 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

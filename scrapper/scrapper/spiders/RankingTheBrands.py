@@ -1,6 +1,6 @@
 import scrapy
 
-from scrapper.scrapper.items import Brand
+from ..items import Brand
 
 
 class RankingthebrandsSpider(scrapy.Spider):
@@ -20,6 +20,6 @@ class RankingthebrandsSpider(scrapy.Spider):
 
         for brand in response.css('#ctl00_mainContent_brandPanel .brandLine'):
             brand_name = brand.css('a span.rankingName::text').get()
-            brand_x = Brand(brand_name,letter)
+            brand_x = Brand(name=brand_name, letter=letter)
             yield brand_x
 

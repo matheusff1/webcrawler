@@ -11,6 +11,6 @@ class ScrapperItem(scrapy.Item):
     # name = scrapy.Field()
     pass
 
-class Brand(scrapy.item):
+class Brand(scrapy.Item):
     name = scrapy.Field()
     letter = scrapy.Field()
